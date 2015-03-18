@@ -115,6 +115,47 @@ library(RColorBrewer)
 #To apply the above to all objects or records of the dataset
 #combi$Title <- sapply(combi$Name, FUN=function(x) {strsplit(x, split='[,.]')[[1]][2]})
 
+#The above work actually leaves a space in front of the title. That can be removed by subsituting
+#Here we substitute the space with nothing
+#combi$Title <- sub(' ', '', combi$Title)
+
+#Now lets combine some like values
+#combi$Title[combi$Title %in% c('Mme', 'Mlle')] <- 'Mlle'
+#combi$Title[combi$Title %in% c('Capt', 'Don', 'Major', 'Sir')] <- 'Sir'
+#combi$Title[combi$Title %in% c('Dona', 'Lady', 'the Countess', 'Jonkheer')] <- 'Lady'
+
+#Now we need to confer the field Title back to a factor.  As you recall, it was changed to a string earlier
+#combi$Title <- factor(combi$Title)
+
+#Lets create a field called family size and use a few existing fields plus the person in question
+#combi$FamilySize <- combi$SibSp + combi$Parch + 1
+
+#Now we will create a new field Surname that we will yank from the name field using string splitting
+#combi$Surname <- sapply(combi$Name, FUN=function(x) {strsplit(x, split='[,.]')[[1]][1]})
+
+#Lets also create a new field that will combine family size and surname.  Looking for large families
+#combi$FamilyID <- paste(as.character(combi$FamilySize), combi$Surname, sep="")
+#Result should like like 3Barb
+#If the family is less then 3 people, lets just classify it as small in the FamilyID field
+#combi$FamilyID[combi$FamilySize <= 2] <- 'Small'
+#Now we'll creat a dataset will just the FamilyIDs to work with
+#famIDs <- data.frame(table(combi$FamilyID))
+#Filter it down to only show those less then or equal to 2
+#famIDs <- famIDs[famIDs$Freq <= 2,]
+#Now we can update the main dataset (combi) and update those families as 'Small'
+#combi$FamilyID[combi$FamilyID %in% famIDs$Var1] <- 'Small'
+#combi$FamilyID <- factor(combi$FamilyID)
+
+#Finally we'll split combi data back into the orginal datasets
+#rain <- combi[1:891,]
+#test <- combi[892:1309,]
+
+#Lets rpart this stuff
+#fit <- rpart(Survived ~ Pclass + Sex + Age + SibSp + Parch + Fare + Embarked + Title + FamilySize + FamilyID, data=train, method="class")
+#Make a prediction
+##Prediction <- predict(fit, test, type = "class")
+
+
 
 
 #Create a dataframe with the necessary data for the Kaggle Submission (PassengerID & Survived)
