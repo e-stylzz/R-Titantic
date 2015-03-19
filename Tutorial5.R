@@ -99,7 +99,7 @@ varImpPlot(fit)
 #Time to crete a prediciton and apply it to the test data
 ###Prediction <- predict(fit, test)
 #OR if using a condial inference tree
-Prediction <- predict(fit, test, OOB=TRUE, type = "responsive")
+Prediction <- predict(fit, test, OOB=TRUE, type = "response")
 
 #Create a dataframe with the necessary data for the Kaggle Submission (PassengerID & Survived)
 submit <- data.frame(PassengerId = test$PassengerId, Survived = Prediction)
