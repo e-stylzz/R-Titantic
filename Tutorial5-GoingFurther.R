@@ -69,9 +69,9 @@ combi$FamilyID2 <- factor(combi$FamilyID2)
 combi$Cabin <- as.character(combi$Cabin)
 combi$Cabin2 <- sapply(combi$Cabin, FUN=function(x) {strsplit(x, split='[ ]')[[1]][1]})
 #Clean up weird entires where cabin looks like "F G73" for example
-cabinanalysis$Cabin2[c(16, 164)] = "G73"
-cabinanalysis$Cabin2[c(26)] = "E69"
-cabinanalysis$Cabin2[c(157)] = "G63"
+combi$Cabin2[c(76, 716)] = "G73"    #: which(combi$Cabin == 'F G73')
+combi$Cabin2[c(129)] = "E69"        #: which(combi$Cabin == 'F E69')
+combi$Cabin2[c(700, 949)] = "G63"        #: which(combi$Cabin == 'F G63')
 #Change Cabin back to a facor
 combi$Cabin <- factor(combi$Cabin)
 #Convert new variable to string
