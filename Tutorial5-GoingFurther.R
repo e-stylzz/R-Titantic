@@ -89,10 +89,6 @@ combi$Location  <- factor(combi$Location)
 
 #####DATA CLEANSING######
 
-#Guestimate the age using rpart for all objects that don't have NA for the age, and then apply that to all records with NA for the age
-Agefit <- rpart(Age ~ Pclass + Sex + SibSp + Parch + Fare + Embarked + Title + FamilySize, data=combi[!is.na(combi$Age),], method="anova")
-combi$Age[is.na(combi$Age)] <- predict(Agefit, combi[is.na(combi$Age),])
-
 #Going through the tutorial we know that we are missing data for two employees for the embarked variable.  
 #To find out which 2, run:  which(combi$Embarked == '') : this results in 62 & 830
 #Lets set both of those to be 'S' since so many folks embarked from South Hampton then convert it back to a factor
@@ -102,6 +98,18 @@ combi$Embarked <- factor(combi$Embarked)
 #Going through the tutorial we know that one person was missing a Fare, so we have figured out that person id is 1044 and we'll replace that
 #with the median fare of our data
 combi$Fare[1044] <- median(combi$Fare, na.rm=TRUE)
+
+
+Deckfit <- rpart(Deck ~ Pclass + Fare + Embarked + Title + FamilySize + Age, data=combi[!is.na(combi$Deck),], method="anova")
+combi$Deck[is.na(combi$Deck)] <- predict(Deckfit, combi[is.na(combi$Deck),])
+
+#Guestimate the age using rpart for all objects that don't have NA for the age, and then apply that to all records with NA for the age
+Agefit <- rpart(Age ~ Pclass + Sex + SibSp + Parch + Fare + Embarked + Title + FamilySize, data=combi[!is.na(combi$Age),], method="anova")
+combi$Age[is.na(combi$Age)] <- predict(Agefit, combi[is.na(combi$Age),])
+
+
+
+
 
 
 #####OTHER STUFF#####
